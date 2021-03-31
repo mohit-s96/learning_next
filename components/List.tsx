@@ -1,15 +1,15 @@
 import * as React from "react";
 import ListItem from "./ListItem";
-import { User } from "../interfaces";
+import { User, ProfileData } from "../interfaces";
 
 type Props = {
-  items: User[];
+  items: ProfileData[];
 };
 
 const List = ({ items }: Props) => (
   <ul>
     {items.map((item) => (
-      <li key={item.id}>
+      <li key={Math.floor(Math.random() * 10000)}>
         <ListItem data={item} />
       </li>
     ))}

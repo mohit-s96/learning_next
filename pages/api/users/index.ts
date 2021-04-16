@@ -6,7 +6,7 @@ const handler = (_req: NextApiRequest, res: NextApiResponse) => {
     if (!Array.isArray(sampleUserData)) {
       throw new Error("Cannot find user data");
     }
-    fetch("https://randomuser.me/api/?results=50")
+    fetch("https://randomuser.me/api/?results=5")
       .then((data) => data.json())
       .then((data) => {
         res.status(200).json(data);

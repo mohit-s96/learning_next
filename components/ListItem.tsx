@@ -5,10 +5,11 @@ import { User, ProfileData } from "../interfaces";
 
 type Props = {
   data: ProfileData;
+  idx: number;
 };
 
-const ListItem = ({ data }: Props) => (
-  <Link href="/users/[id]" as={`/users/${Math.floor(Math.random() * 10000)}`}>
+const ListItem = ({ data, idx }: Props) => (
+  <Link href="/users/[id]" as={`/users/${idx}`}>
     <a>
       {data.name.first}: {data.email}
     </a>

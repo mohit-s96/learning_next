@@ -3,14 +3,14 @@ import ListItem from "./ListItem";
 import { User, ProfileData } from "../interfaces";
 
 type Props = {
-  items: ProfileData[];
+  items?: ProfileData[];
 };
 
 const List = ({ items }: Props) => (
   <ul>
-    {items.map((item) => (
-      <li key={Math.floor(Math.random() * 10000)}>
-        <ListItem data={item} />
+    {items?.map((item, idx) => (
+      <li key={idx}>
+        <ListItem data={item} idx={idx} />
       </li>
     ))}
   </ul>

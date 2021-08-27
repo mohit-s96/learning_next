@@ -1,36 +1,44 @@
-import { GetStaticProps } from "next";
-import useSWR from "swr";
 import Link from "next/link";
 
-import { User, ProfileData, Results } from "../../interfaces";
-import { sampleUserData } from "../../utils/sample-data";
+import { PromiseData } from "../../interfaces";
 import Layout from "../../components/Layout";
 import List from "../../components/List";
+import { useFetch } from "../../components/useFetch";
 
-type Props = {
-  items: ProfileData[];
+const fetcher = (uri: string): Promise<PromiseData> => {
+  console.log("hello");
+  if (uri) {
+    return fetch(uri).then((data) => data.json());
+  } else {
+    return Promise.reject("No URI");
+  }
 };
-
 const UserPage = () => {
-  const { data, error } = useSWR("/api/users", fetcher);
-  return data ? (
+  // const { data, error } = useSWR("/api/users", fetcher);
+  const { data, error } = useFetch<typeof fetcher>(
+    "/api/users",
+    fetcher,
+    true,
+    5
+  );
+  return (
     <Layout title="Users List | Next.js + TypeScript Example">
       <h1>Users List</h1>
-      <p>
-        Example fetching data from inside <code>getStaticProps()</code>.
-      </p>
+      <p>Example fetching data client side.</p>
       <p>You are currently on: /users</p>
-      <List items={data.results} />
+      {data ? (
+        <List items={data.results ? data.results : undefined} />
+      ) : error ? (
+        <div>error</div>
+      ) : (
+        <div>Loading...</div>
+      )}
       <p>
         <Link href="/">
           <a>Go home</a>
         </Link>
       </p>
     </Layout>
-  ) : error ? (
-    <div>error</div>
-  ) : (
-    <div>Loading...</div>
   );
 };
 
@@ -40,13 +48,5 @@ const UserPage = () => {
 //   const items: ProfileData[] = jsonData.results;
 //   return { props: { items } };
 // };
-const fetcher = (uri: string) => {
-  console.log("hello");
-  if (uri) {
-    return fetch(uri).then((data) => data.json());
-  } else {
-    return false;
-  }
-};
 
 export default UserPage;

@@ -2,6 +2,9 @@ export type User = {
   id: number;
   name: string;
 };
+export type PromiseData = {
+  results: ProfileData[];
+};
 export interface ProfileData {
   dob: {
     age: number;
